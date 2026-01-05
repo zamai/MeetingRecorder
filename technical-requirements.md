@@ -1,6 +1,6 @@
-# AudioCap Technical Requirements
+# MeetingRecorder Technical Requirements
 
-AudioCap is a macOS status-bar application that records system audio + default microphone into a single M4A file using modern Core Audio capture APIs. One click starts/stops recording. Files are saved to Desktop by default and flushed to disk every second to allow partial-recording recovery.
+MeetingRecorder is a macOS status-bar application that records system audio + default microphone into a single M4A file using modern Core Audio capture APIs. One click starts/stops recording. Files are saved to Desktop by default and flushed to disk every second to allow partial-recording recovery.
 
 ⸻
 
@@ -10,7 +10,7 @@ AudioCap is a macOS status-bar application that records system audio + default m
 - Output format: M4A (AAC).
 - Save location: Desktop (configurable).
 - Crash-tolerant: flush encoded audio to disk every 1 second.
-- File naming: AudioCap_<YYYY-MM-DD>T<hh-mm-ss>.m4a using local time.
+- File naming: MeetingRecorder_<YYYY-MM-DD>T<hh-mm-ss>.m4a using local time.
 - Request system-audio and microphone permissions on first use.
 
 ⸻
