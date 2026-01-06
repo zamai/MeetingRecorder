@@ -13,6 +13,11 @@ final class RecordingState {
 struct MeetingRecorderApp: App {
     @State private var recordingState = RecordingState.shared
 
+    init() {
+        PostHogAnalytics.configure()
+        PostHogAnalytics.trackFirstLaunchIfNeeded()
+    }
+
     var body: some Scene {
         MenuBarExtra {
             RootView()

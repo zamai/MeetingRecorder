@@ -32,6 +32,12 @@ make release  # Build release version
 make clean    # Clean build artifacts
 ```
 
+## Analytics
+
+This app sends a single anonymous event to [PostHog](https://posthog.com) when you first launch it. That's it. I'm just curious if anyone will ever install this thing :)
+
+See exactly what's tracked: [PostHogAnalytics.swift](MeetingRecorder/PostHogAnalytics.swift)
+
 ## License
 
 This project is free and open source, available under the [Apache 2.0 License](LICENSE).
