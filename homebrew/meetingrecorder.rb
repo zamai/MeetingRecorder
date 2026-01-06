@@ -1,5 +1,5 @@
 cask "meetingrecorder" do
-  version "1.0.0"
+  version "0.1"
   sha256 "7b32ed2530cfeebbdd3fa37debe663b2aa8614f37b112e7e5638668588b63bc7"
 
   url "https://github.com/zamai/MeetingRecorder/releases/download/v#{version}/MeetingRecorder-#{version}.zip"
@@ -18,10 +18,10 @@ cask "meetingrecorder" do
                    sudo: false
   end
 
-  uninstall quit: "codes.rambo.samplecode.MeetingRecorder"
+  uninstall quit: "com.zamai.MeetingRecorder"
 
   zap trash: [
     "~/Library/Application Support/MeetingRecorder",
-    "~/Library/Preferences/codes.rambo.samplecode.MeetingRecorder.plist",
+    "~/Library/Preferences/com.zamai.MeetingRecorder.plist",
   ]
 end

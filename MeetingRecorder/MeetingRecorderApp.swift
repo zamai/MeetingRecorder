@@ -1,6 +1,6 @@
 import SwiftUI
 
-let kAppSubsystem = "codes.rambo.MeetingRecorder"
+let kAppSubsystem = "com.zamai.MeetingRecorder"
 
 @Observable
 final class RecordingState {

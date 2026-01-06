@@ -1,5 +1,5 @@
 // Change the bundle identifier to something unique if you get code signing errors.
-PRODUCT_BUNDLE_IDENTIFIER = codes.rambo.samplecode.MeetingRecorder
+PRODUCT_BUNDLE_IDENTIFIER = com.zamai.MeetingRecorder
 
 VERSIONING_SYSTEM = Apple Generic
 
