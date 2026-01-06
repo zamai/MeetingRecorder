@@ -51,7 +51,7 @@ jobs:
             ## Installation
 
             ```bash
-            brew install --cask --no-quarantine zamai/tap/meetingrecorder
+            brew install --cask zamai/tap/meetingrecorder
             ```
 
             Or download manually and run:

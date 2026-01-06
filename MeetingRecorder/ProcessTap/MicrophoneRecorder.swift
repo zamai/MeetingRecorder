@@ -4,16 +4,18 @@ import OSLog
 
 @Observable
 final class MicrophoneRecorder {
-    
+
     let fileURL: URL
     private let logger: Logger
+    private let targetSampleRate: Double?
     let audioEngine = AVAudioEngine()
     private var audioFile: AVAudioFile?
-    
+
     private(set) var isRecording = false
-    
-    init(fileURL: URL) {
+
+    init(fileURL: URL, sampleRate: Double? = nil) {
         self.fileURL = fileURL
+        self.targetSampleRate = sampleRate
         self.logger = Logger(subsystem: kAppSubsystem, category: "\(String(describing: MicrophoneRecorder.self))(\(fileURL.lastPathComponent))")
     }
     
@@ -37,11 +39,17 @@ final class MicrophoneRecorder {
         // Get the hardware format directly to avoid format mismatch
         let inputFormat = inputNode.inputFormat(forBus: 0)
         logger.info("Microphone hardware format: \(inputFormat, privacy: .public)")
-        
-        // Create audio file for writing using the hardware format directly
+
+        // Use target sample rate if provided (to match system audio), otherwise use hardware rate
+        let outputSampleRate = targetSampleRate ?? inputFormat.sampleRate
+        logger.info("Microphone input sample rate: \(inputFormat.sampleRate, privacy: .public)")
+        logger.info("Target sample rate: \(self.targetSampleRate ?? 0, privacy: .public)")
+        logger.info("File output sample rate: \(outputSampleRate, privacy: .public)")
+
+        // Create audio file for writing
         let settings: [String: Any] = [
             AVFormatIDKey: kAudioFormatMPEG4AAC,
-            AVSampleRateKey: inputFormat.sampleRate,
+            AVSampleRateKey: outputSampleRate,
             AVNumberOfChannelsKey: inputFormat.channelCount,
             AVEncoderAudioQualityKey: AVAudioQuality.max.rawValue
         ]

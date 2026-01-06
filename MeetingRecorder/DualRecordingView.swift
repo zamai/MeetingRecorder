@@ -38,9 +38,11 @@ struct DualRecordingView: View {
 
     private func startRecordingFlow() async {
         do {
-            createRecorders()
             let permissionsGranted = await requestPermissions()
             if permissionsGranted {
+                // Activate tap first to get the actual sample rate
+                if !tap.activated { tap.activate() }
+                createRecorders()
                 try startBothRecorders()
             }
         } catch {
@@ -51,16 +53,19 @@ struct DualRecordingView: View {
     private func createRecorders() {
         let timestamp = Int(Date.now.timeIntervalSinceReferenceDate)
 
+        // Get actual sample rate from aggregate device (must be activated first)
+        let actualSampleRate = tap.actualSampleRate ?? 48000
+
+        // Create microphone recorder with SAME sample rate as system audio
         let micFilename = "Microphone-\(timestamp)"
         let micAudioFileURL = URL.applicationSupport.appendingPathComponent(micFilename).appendingPathExtension(for: UTType(mimeType: "audio/mp4")!)
-        let newMicRecorder = MicrophoneRecorder(fileURL: micAudioFileURL)
+        let newMicRecorder = MicrophoneRecorder(fileURL: micAudioFileURL, sampleRate: actualSampleRate)
         self.micRecorder = newMicRecorder
 
-        // Don't access audioEngine.inputNode here - it can cause premature audio session initialization
-        // Use standard sample rate; the tap will use its native format
+        // Create system recorder with the actual sample rate
         let systemFilename = "SystemAudio-\(timestamp)"
         let systemAudioFileURL = URL.applicationSupport.appendingPathComponent(systemFilename).appendingPathExtension(for: UTType(mimeType: "audio/mp4")!)
-        let newSystemRecorder = ProcessTapRecorder(fileURL: systemAudioFileURL, tap: tap, sampleRate: nil)
+        let newSystemRecorder = ProcessTapRecorder(fileURL: systemAudioFileURL, tap: tap, sampleRate: actualSampleRate)
         self.recorder = newSystemRecorder
     }
 

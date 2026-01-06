@@ -17,7 +17,20 @@ A simple macOS menu bar app that does one thing: records your microphone and sys
 
 ## Installation
 
-Download the latest release from the [Releases](https://github.com/zamai/MeetingRecorder/releases) page.
+```bash
+brew install --cask zamai/tap/meetingrecorder
+```
+
+Or download manually from the [Releases](https://github.com/zamai/MeetingRecorder/releases) page.
+
+## Development
+
+```bash
+make run      # Build and run debug version
+make build    # Build debug version only
+make release  # Build release version
+make clean    # Clean build artifacts
+```
 
 ## License
 

@@ -2,7 +2,6 @@ import SwiftUI
 
 @MainActor
 struct RootView: View {
-    @State private var settingsWindow: NSWindow?
     @State private var recordingState = RecordingState.shared
 
     var body: some View {
@@ -29,31 +28,9 @@ struct RootView: View {
 
             Divider()
 
-            HStack {
-                Button("Settings") {
-                    if settingsWindow == nil {
-                        let settingsView = SettingsView()
-                        settingsWindow = NSWindow(contentViewController: NSHostingController(rootView: settingsView))
-                        settingsWindow?.title = "Settings"
-                    }
-                    settingsWindow?.makeKeyAndOrderFront(nil)
-                }
-
-                Button("Quit") {
-                    NSApplication.shared.terminate(nil)
-                }
+            Button("Quit") {
+                NSApplication.shared.terminate(nil)
             }
-        }
-        .padding()
-    }
-}
-
-struct SettingsView: View {
-    @AppStorage("shouldMergeAudioFiles") private var shouldMergeAudioFiles = true
-
-    var body: some View {
-        Form {
-            Toggle("Merge audio files", isOn: $shouldMergeAudioFiles)
         }
         .padding()
     }

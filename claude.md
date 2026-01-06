@@ -13,6 +13,8 @@
 - System audio capture via process taps
 - Simultaneous recording of system audio and microphone input
 
+---
+
 ## Development Workflow Rules
 
 ### Compilation Warnings Check

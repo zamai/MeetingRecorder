@@ -121,6 +121,31 @@ extension AudioObjectID {
         try read(kAudioDevicePropertyStreamFormat, defaultValue: AudioStreamBasicDescription())
     }
 
+    /// Reads the nominal sample rate for the device represented by this audio object ID.
+    func readNominalSampleRate() throws -> Double {
+        try read(kAudioDevicePropertyNominalSampleRate, defaultValue: Double(0))
+    }
+
+    /// Reads the actual sample rate for the device (may differ from nominal).
+    func readActualSampleRate() throws -> Double {
+        try read(kAudioDevicePropertyActualSampleRate, defaultValue: Double(0))
+    }
+
+    /// Reads the input stream format (from input scope) for the device.
+    func readInputStreamFormat() throws -> AudioStreamBasicDescription {
+        try read(kAudioDevicePropertyStreamFormat, scope: kAudioDevicePropertyScopeInput, defaultValue: AudioStreamBasicDescription())
+    }
+
+    /// Reads the output stream format for the device.
+    func readOutputStreamFormat() throws -> AudioStreamBasicDescription {
+        try read(kAudioDevicePropertyStreamFormat, scope: kAudioDevicePropertyScopeOutput, defaultValue: AudioStreamBasicDescription())
+    }
+
+    /// Reads the buffer frame size for the device.
+    func readBufferFrameSize() throws -> UInt32 {
+        try read(kAudioDevicePropertyBufferFrameSize, defaultValue: UInt32(0))
+    }
+
     private func requireSystemObject() throws {
         if self != .system { throw "Only supported for the system object." }
     }
