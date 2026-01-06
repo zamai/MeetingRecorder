@@ -8,42 +8,32 @@ struct DualRecordingView: View {
     @Binding var recorder: ProcessTapRecorder?
     @Binding var micRecorder: MicrophoneRecorder?
 
-    var body: some View {
-        Section {
-            HStack {
-                if recorder?.isRecording ?? false || micRecorder?.isRecording ?? false {
-                    Button("Stop Recording") {
-                        stopBothRecorders()
-                    }
-                    .id("button")
-                } else {
-                    Button("Start Recording") {
-                        Task {
-                            await startRecordingFlow()
-                        }
-                    }
-                    .id("button")
-                }
-            }
-            .animation(.smooth, value: recorder?.isRecording)
-            .animation(.smooth, value: micRecorder?.isRecording)
-        } header: {
-            HStack {
-                RecordingIndicator(appIcon: tap.process.icon, isRecording: recorder?.isRecording ?? false || micRecorder?.isRecording ?? false)
-
-                Text(getRecordingStatusText())
-                    .font(.headline)
-                    .contentTransition(.identity)
-            }
-        }
+    private var isRecording: Bool {
+        recorder?.isRecording ?? false || micRecorder?.isRecording ?? false
     }
 
-    private func getRecordingStatusText() -> String {
-        if recorder?.isRecording ?? false || micRecorder?.isRecording ?? false {
-            return "Recording System Audio + Microphone"
-        } else {
-            return "Ready to Record System Audio + Microphone"
+    var body: some View {
+        // Only show Start Recording button when not recording
+        // Stop Recording is handled by RootView's prominent button
+        if !isRecording {
+            Button("Start Recording") {
+                Task {
+                    await startRecordingFlow()
+                }
+            }
         }
+
+        EmptyView()
+            .onChange(of: isRecording) { _, newValue in
+                RecordingState.shared.isRecording = newValue
+                if newValue {
+                    RecordingState.shared.stopAction = { [self] in
+                        stopBothRecorders()
+                    }
+                } else {
+                    RecordingState.shared.stopAction = nil
+                }
+            }
     }
 
     private func startRecordingFlow() async {

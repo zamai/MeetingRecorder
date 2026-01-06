@@ -3,11 +3,30 @@ import SwiftUI
 @MainActor
 struct RootView: View {
     @State private var settingsWindow: NSWindow?
+    @State private var recordingState = RecordingState.shared
 
     var body: some View {
         VStack(spacing: 12) {
+            // When recording, show prominent Stop button at top
+            if recordingState.isRecording {
+                Button(action: {
+                    recordingState.stopAction?()
+                }) {
+                    HStack {
+                        Image(systemName: "stop.fill")
+                            .foregroundStyle(.red)
+                        Text("Stop Recording")
+                            .fontWeight(.semibold)
+                    }
+                }
+                .buttonStyle(.borderedProminent)
+                .tint(.red)
+
+                Divider()
+            }
+
             SystemAudioRecordingView()
-            
+
             Divider()
 
             HStack {

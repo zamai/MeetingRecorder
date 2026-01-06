@@ -164,19 +164,21 @@ extension UserDefaults {
     var destinationFolderURL: URL? {
         get {
             guard let bookmarkData = data(forKey: Keys.destinationFolderBookmark) else {
-                return nil
+                // Default to Desktop
+                return FileManager.default.urls(for: .desktopDirectory, in: .userDomainMask).first
             }
-            
+
             var isStale = false
             guard let url = try? URL(resolvingBookmarkData: bookmarkData, options: .withSecurityScope, relativeTo: nil, bookmarkDataIsStale: &isStale) else {
-                return nil
+                // Fall back to Desktop
+                return FileManager.default.urls(for: .desktopDirectory, in: .userDomainMask).first
             }
-            
+
             if isStale {
-                // Handle stale bookmark if needed
-                return nil
+                // Fall back to Desktop if bookmark is stale
+                return FileManager.default.urls(for: .desktopDirectory, in: .userDomainMask).first
             }
-            
+
             return url
         }
         set {
